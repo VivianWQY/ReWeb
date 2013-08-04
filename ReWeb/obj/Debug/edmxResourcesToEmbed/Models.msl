@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs" Space="C-S">
+  <Alias Key="Model" Value="Models" />
+  <Alias Key="Target" Value="Models.Store" />
+  <EntityContainerMapping CdmEntityContainer="ModelsContainer" StorageEntityContainer="ModelsStoreContainer">
+    <EntitySetMapping Name="Instance">
+      <EntityTypeMapping TypeName="Models.Instance">
+        <MappingFragment StoreEntitySet="Instance">
+          <ScalarProperty Name="ZZRQ" ColumnName="ZZRQ" />
+          <ScalarProperty Name="LXR" ColumnName="LXR" />
+          <ScalarProperty Name="FRYB" ColumnName="FRYB" />
+          <ScalarProperty Name="FRTXDZ" ColumnName="FRTXDZ" />
+          <ScalarProperty Name="FRSFZH" ColumnName="FRSFZH" />
+          <ScalarProperty Name="FRLXDW" ColumnName="FRLXDW" />
+          <ScalarProperty Name="FRZW" ColumnName="FRZW" />
+          <ScalarProperty Name="FRDB" ColumnName="FRDB" />
+          <ScalarProperty Name="DZYJ" ColumnName="DZYJ" />
+          <ScalarProperty Name="LXDHSJ" ColumnName="LXDHSJ" />
+          <ScalarProperty Name="LXDH" ColumnName="LXDH" />
+          <ScalarProperty Name="SYQMJ" ColumnName="SYQMJ" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="BZ" ColumnName="BZ" />
+          <ScalarProperty Name="DYMJ" ColumnName="DYMJ" />
+          <ScalarProperty Name="FTMJ" ColumnName="FTMJ" />
+          <ScalarProperty Name="SYQLX" ColumnName="SYQLX" />
+          <ScalarProperty Name="QSXZ" ColumnName="QSXZ" />
+          <ScalarProperty Name="YB" ColumnName="YB" />
+          <ScalarProperty Name="DWXZ" ColumnName="DWXZ" />
+          <ScalarProperty Name="ZJBH" ColumnName="ZJBH" />
+          <ScalarProperty Name="ZJLX" ColumnName="ZJLX" />
+          <ScalarProperty Name="TDYT" ColumnName="TDYT" />
+          <ScalarProperty Name="QLRMC" ColumnName="QLRMC" />
+          <ScalarProperty Name="FWZL" ColumnName="FWZL" />
+          <ScalarProperty Name="TFH" ColumnName="TFH" />
+          <ScalarProperty Name="DJH" ColumnName="DJH" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserInstance">
+      <EntityTypeMapping TypeName="Models.UserInstance">
+        <MappingFragment StoreEntitySet="UserInstance">
+          <ScalarProperty Name="AcceptedTime" ColumnName="AcceptedTime" />
+          <ScalarProperty Name="ReturnTime" ColumnName="ReturnTime" />
+          <ScalarProperty Name="CommitTime" ColumnName="CommitTime" />
+          <ScalarProperty Name="RetreatReason" ColumnName="RetreatReason" />
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="FWZL" ColumnName="FWZL" />
+          <ScalarProperty Name="QLRMC" ColumnName="QLRMC" />
+          <ScalarProperty Name="InstanceID" ColumnName="InstanceID" />
+          <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+          <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserInformation">
+      <EntityTypeMapping TypeName="Models.UserInformation">
+        <MappingFragment StoreEntitySet="UserInformation">
+          <ScalarProperty Name="UserType" ColumnName="UserType" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="telephone" ColumnName="telephone" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="trueName" ColumnName="trueName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,25 @@
+﻿@{
+    ViewBag.Title = "关于我们";
+}
+<section id="About">
+    <div class="page-header">
+        <h1>关于</h1>
+    </div>
+    <div class="row">
+        <div class="span16">
+            <h3>
+                出现问题请联系蒋晓敏，联系电话：1516xxxxxx；曹洋洋，联系电话：18705xxxxxx
+                @if (ViewBag == null)
+                {
+                    <div class="btn" data-toggle="uploader" data-swf="/static/swfup.swf" data-url="/file/create" style="background-image: url(/static/img/v4_up_btn.png)">按钮</div>
+                }
+           </h3>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    var run = function () {
+        require(['upload']);
+    }
+        
+</script>

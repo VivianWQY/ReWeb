@@ -1,0 +1,93 @@
+﻿@model ReWeb.Models.RegisterModel
+@{
+    ViewBag.Title = "注册新帐号";
+}
+<section id="login">
+    <div class="page-header">
+        <h1>注册新帐号</h1>
+    </div>
+    <div class="row">
+        <div class="span12">
+            <p>
+                创建新帐号。密码 <strong>至少需要 @Membership.MinRequiredPasswordLength 个字符</strong>。
+            </p>
+            <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+            <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+            <form method="post" action="" class="form-horizontal">
+                @Html.ValidationSummary(true, "帐号创建失败，请检查注册信息是否有错误。", new { @class = "alert alert-error" })
+                <fieldset>
+                    <legend>帐号信息</legend>
+                    <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(m => m.UserName)</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.UserName)
+                            @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "alert-error1" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(m => m.TrueName)</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.TrueName)
+                            @Html.ValidationMessageFor(m => m.TrueName, null, new { @class = "alert-error1" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(m => m.UserType)</label>
+                        <div class="controls">
+                        <label class="radio">
+                                @Html.RadioButtonFor(m => m.UserType,1, new { Checked = "checked" })
+                                您是个人用户
+                        </label>
+                        <label>
+                                @Html.RadioButtonFor(m => m.UserType,2)
+                                您是企业用户或者中介公司
+                        </label>
+
+                        </div>
+                     </div>
+                    <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(m => m.Password)</label>
+                        <div class="controls">
+                            @Html.PasswordFor(m => m.Password)
+                            @Html.ValidationMessageFor(m => m.Password, null, new { @class = "alert-error1" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(m => m.ConfirmPassword)</label>
+                        <div class="controls">
+                            @Html.PasswordFor(m => m.ConfirmPassword)
+                            @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new { @class = "alert-error1" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(m => m.Phone)</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Phone)
+                            @Html.ValidationMessageFor(m => m.Phone, null, new { @class = "alert-error1" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(m => m.TelePhone)</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.TelePhone)
+                            @Html.ValidationMessageFor(m => m.TelePhone, null, new { @class = "alert-error1" })
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label">@Html.LabelFor(m => m.Email)</label>
+                        <div class="controls">
+                            @Html.TextBoxFor(m => m.Email)
+                            @Html.ValidationMessageFor(m => m.Email, null, new { @class = "alert-error1" })
+                        </div>
+                    </div>
+                    <legend>其他信息</legend>
+                    <div class="form-actions">
+                        <input type="submit" class="btn btn-primary" value="注册" />
+                        @Html.ActionLink("取消", "index", "home", null, new { @class = "btn" })
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</section>

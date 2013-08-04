@@ -1,0 +1,52 @@
+﻿@model ReWeb.UserInstance
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>UserInstance</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreateUser)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreateUser)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreateTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreateTime)
+    </div>
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Instance.DJH)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Instance.DJH)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.QLRMC)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.QLRMC)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FWZL)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FWZL)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

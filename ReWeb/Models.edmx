@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ModelsStoreContainer">
+          <EntitySet Name="Instance" EntityType="Models.Store.Instance" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserInformation" EntityType="Models.Store.UserInformation" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="UserInstance" EntityType="Models.Store.UserInstance" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_Instance_Instance" Association="Models.Store.FK_Instance_Instance">
+            <End Role="Instance" EntitySet="Instance" />
+            <End Role="Instance1" EntitySet="Instance" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserInstance_Instance" Association="Models.Store.FK_UserInstance_Instance">
+            <End Role="Instance" EntitySet="Instance" />
+            <End Role="UserInstance" EntitySet="UserInstance" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Instance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="DJH" Type="varchar" MaxLength="19" />
+          <Property Name="TFH" Type="varchar" MaxLength="250" />
+          <Property Name="FWZL" Type="varchar" MaxLength="100" />
+          <Property Name="QLRMC" Type="varchar" MaxLength="80" />
+          <Property Name="TDYT" Type="varchar" MaxLength="20" />
+          <Property Name="ZJLX" Type="varchar" MaxLength="50" />
+          <Property Name="ZJBH" Type="varchar" MaxLength="40" />
+          <Property Name="DWXZ" Type="varchar" MaxLength="40" />
+          <Property Name="YB" Type="varchar" MaxLength="10" />
+          <Property Name="QSXZ" Type="varchar" MaxLength="20" />
+          <Property Name="SYQLX" Type="varchar" MaxLength="20" />
+          <Property Name="FTMJ" Type="float" />
+          <Property Name="DYMJ" Type="float" />
+          <Property Name="BZ" Type="varchar" MaxLength="2000" />
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="SYQMJ" Type="float" />
+          <Property Name="LXDH" Type="varchar" MaxLength="20" />
+          <Property Name="LXDHSJ" Type="varchar" MaxLength="20" />
+          <Property Name="DZYJ" Type="varchar" MaxLength="50" />
+          <Property Name="FRDB" Type="varchar" MaxLength="8" />
+          <Property Name="FRZW" Type="varchar" MaxLength="20" />
+          <Property Name="FRLXDW" Type="varchar" MaxLength="20" />
+          <Property Name="FRSFZH" Type="varchar" MaxLength="20" />
+          <Property Name="FRTXDZ" Type="varchar" MaxLength="100" />
+          <Property Name="FRYB" Type="varchar" MaxLength="50" />
+          <Property Name="LXR" Type="varchar" MaxLength="8" />
+          <Property Name="ZZRQ" Type="datetime" />
+        </EntityType>
+        <EntityType Name="UserInformation">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="trueName" Type="nvarchar" MaxLength="50" />
+          <Property Name="phone" Type="nvarchar" MaxLength="50" />
+          <Property Name="telephone" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserType" Type="int" />
+        </EntityType>
+        <EntityType Name="UserInstance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="nchar" Nullable="false" MaxLength="12" />
+          <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CreateTime" Type="datetime" Nullable="false" />
+          <Property Name="InstanceID" Type="int" Nullable="false" />
+          <Property Name="QLRMC" Type="nchar" Nullable="false" MaxLength="80" />
+          <Property Name="FWZL" Type="nchar" Nullable="false" MaxLength="100" />
+          <Property Name="Status" Type="int" />
+          <Property Name="RetreatReason" Type="nchar" MaxLength="2000" />
+          <Property Name="CommitTime" Type="datetime" />
+          <Property Name="ReturnTime" Type="datetime" />
+          <Property Name="AcceptedTime" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Instance_Instance">
+          <End Role="Instance" Type="Models.Store.Instance" Multiplicity="1" />
+          <End Role="Instance1" Type="Models.Store.Instance" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Instance">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Instance1">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserInstance_Instance">
+          <End Role="Instance" Type="Models.Store.Instance" Multiplicity="1" />
+          <End Role="UserInstance" Type="Models.Store.UserInstance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instance">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserInstance">
+              <PropertyRef Name="InstanceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Models" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="ModelsContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Instance" EntityType="Models.Instance" />
+          <EntitySet Name="UserInstance" EntityType="Models.UserInstance" />
+          <AssociationSet Name="FK_UserInstance_Instance" Association="Models.FK_UserInstance_Instance">
+            <End Role="Instance" EntitySet="Instance" />
+            <End Role="UserInstance" EntitySet="UserInstance" />
+          </AssociationSet>
+          <EntitySet Name="UserInformation" EntityType="Models.UserInformation" />
+        </EntityContainer>
+        <EntityType Name="Instance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="String" Name="DJH" MaxLength="19" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TFH" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FWZL" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="QLRMC" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="TDYT" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZJLX" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ZJBH" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DWXZ" MaxLength="40" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="YB" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="QSXZ" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SYQLX" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="Double" Name="FTMJ" />
+          <Property Type="Double" Name="DYMJ" />
+          <Property Type="String" Name="BZ" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Double" Name="SYQMJ" />
+          <Property Type="String" Name="LXDH" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LXDHSJ" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="DZYJ" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FRDB" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FRZW" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FRLXDW" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FRSFZH" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FRTXDZ" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FRYB" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="LXR" MaxLength="8" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="ZZRQ" />
+          <NavigationProperty Name="UserInstance" Relationship="Models.FK_UserInstance_Instance" FromRole="Instance" ToRole="UserInstance" />
+          </EntityType>
+        <EntityType Name="UserInstance">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="String" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Guid" Name="CreateUser" Nullable="false" />
+          <Property Type="DateTime" Name="CreateTime" Nullable="false" />
+          <Property Type="Int32" Name="InstanceID" Nullable="false" />
+          <Property Type="String" Name="QLRMC" Nullable="false" MaxLength="80" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="FWZL" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Instance" Relationship="Models.FK_UserInstance_Instance" FromRole="UserInstance" ToRole="Instance" />
+          <Property Type="Int32" Name="Status" />
+          <Property Type="String" Name="RetreatReason" MaxLength="2000" FixedLength="true" Unicode="true" />
+          <Property Type="DateTime" Name="CommitTime" />
+          <Property Type="DateTime" Name="ReturnTime" />
+          <Property Type="DateTime" Name="AcceptedTime" />
+        </EntityType>
+        <Association Name="FK_UserInstance_Instance">
+          <End Type="Models.Instance" Role="Instance" Multiplicity="1" />
+          <End Type="Models.UserInstance" Role="UserInstance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Instance">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="UserInstance">
+              <PropertyRef Name="InstanceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserInformation">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Type="String" Name="trueName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="phone" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="telephone" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="Guid" Name="UserID" Nullable="false" />
+          <Property Type="Int32" Name="UserType" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="Models" />
+        <Alias Key="Target" Value="Models.Store" />
+        <EntityContainerMapping CdmEntityContainer="ModelsContainer" StorageEntityContainer="ModelsStoreContainer">
+          <EntitySetMapping Name="Instance">
+            <EntityTypeMapping TypeName="Models.Instance">
+              <MappingFragment StoreEntitySet="Instance">
+                <ScalarProperty Name="ZZRQ" ColumnName="ZZRQ" />
+                <ScalarProperty Name="LXR" ColumnName="LXR" />
+                <ScalarProperty Name="FRYB" ColumnName="FRYB" />
+                <ScalarProperty Name="FRTXDZ" ColumnName="FRTXDZ" />
+                <ScalarProperty Name="FRSFZH" ColumnName="FRSFZH" />
+                <ScalarProperty Name="FRLXDW" ColumnName="FRLXDW" />
+                <ScalarProperty Name="FRZW" ColumnName="FRZW" />
+                <ScalarProperty Name="FRDB" ColumnName="FRDB" />
+                <ScalarProperty Name="DZYJ" ColumnName="DZYJ" />
+                <ScalarProperty Name="LXDHSJ" ColumnName="LXDHSJ" />
+                <ScalarProperty Name="LXDH" ColumnName="LXDH" />
+                <ScalarProperty Name="SYQMJ" ColumnName="SYQMJ" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="BZ" ColumnName="BZ" />
+                <ScalarProperty Name="DYMJ" ColumnName="DYMJ" />
+                <ScalarProperty Name="FTMJ" ColumnName="FTMJ" />
+                <ScalarProperty Name="SYQLX" ColumnName="SYQLX" />
+                <ScalarProperty Name="QSXZ" ColumnName="QSXZ" />
+                <ScalarProperty Name="YB" ColumnName="YB" />
+                <ScalarProperty Name="DWXZ" ColumnName="DWXZ" />
+                <ScalarProperty Name="ZJBH" ColumnName="ZJBH" />
+                <ScalarProperty Name="ZJLX" ColumnName="ZJLX" />
+                <ScalarProperty Name="TDYT" ColumnName="TDYT" />
+                <ScalarProperty Name="QLRMC" ColumnName="QLRMC" />
+                <ScalarProperty Name="FWZL" ColumnName="FWZL" />
+                <ScalarProperty Name="TFH" ColumnName="TFH" />
+                <ScalarProperty Name="DJH" ColumnName="DJH" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInstance">
+            <EntityTypeMapping TypeName="Models.UserInstance">
+              <MappingFragment StoreEntitySet="UserInstance">
+                <ScalarProperty Name="AcceptedTime" ColumnName="AcceptedTime" />
+                <ScalarProperty Name="ReturnTime" ColumnName="ReturnTime" />
+                <ScalarProperty Name="CommitTime" ColumnName="CommitTime" />
+                <ScalarProperty Name="RetreatReason" ColumnName="RetreatReason" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="FWZL" ColumnName="FWZL" />
+                <ScalarProperty Name="QLRMC" ColumnName="QLRMC" />
+                <ScalarProperty Name="InstanceID" ColumnName="InstanceID" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="CreateUser" ColumnName="CreateUser" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserInformation">
+            <EntityTypeMapping TypeName="Models.UserInformation">
+              <MappingFragment StoreEntitySet="UserInformation">
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="telephone" ColumnName="telephone" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="trueName" ColumnName="trueName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram Name="Models" ZoomLevel="81" >
+        <EntityTypeShape EntityType="Models.Instance" Width="1.5" PointX="0.75" PointY="1.25" Height="6.74552490234375" />
+        <EntityTypeShape EntityType="Models.UserInstance" Width="1.5" PointX="3" PointY="3.625" Height="3.3071704101562496" />
+        <AssociationConnector Association="Models.FK_UserInstance_Instance" >
+          <ConnectorPoint PointX="2.25" PointY="5.2785852050781248" />
+          <ConnectorPoint PointX="3" PointY="5.2785852050781248" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="Models.UserInformation" Width="1.5" PointX="3.375" PointY="0.75" Height="1.779012858072917" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

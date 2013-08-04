@@ -1,0 +1,23 @@
+﻿@model HandleErrorInfo
+
+@{
+    ViewBag.Title = ViewBag.Title ?? "出了点问题，服务器正在努力修复中……";
+}
+
+<h2>
+    @ViewBag.Description
+</h2>
+<p>
+    将在<b rel="tick" data="5">5</b>秒之后转至主页
+</p>
+<script type="text/javascript">
+    setInterval(function () {
+        var tick = $('b[rel=tick]');
+        var i = tick.attr('data');
+        if (i == 1) {
+            location.href = '@Url.Action("index", "home")';
+        }
+        tick.attr('data', i - 1);
+        tick.text(i - 1);
+    }, 1000);
+</script>

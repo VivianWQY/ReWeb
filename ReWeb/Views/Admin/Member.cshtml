@@ -1,0 +1,231 @@
+﻿@model Tuple<List<ReWeb.Models.EditUserModel>, List<ReWeb.Models.EditUserModel>>
+@{
+    ViewBag.Title = "业务列表";
+    var i = 0;
+}
+<style>
+    .subnav
+    {
+        padding-top: 1px;
+    }
+    .font
+    {
+        font-weight: 900;
+    }
+</style>
+<section>
+    <div class="page-header">
+        <h1>用户管理界面</h1>
+    </div>
+    <table class="table table-striped table-bordered interop " id = "userList">
+        <div class="subnav" id = "subnav">
+            <ul class="nav nav-pills pull-right">
+                <li class="dropdown pull-left">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">操作 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><i class="icon-info-sign"></i>查看</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+                        <li><a href="#"><i class="icon-trash"></i>删除</a></li>
+                        <li><a href="#"><i class="icon-ban-circle"></i>关闭</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+                <li><a href="#"><i class="icon-trash"></i>删除</a></li>
+                <li><a href="#"><i class="icon-ban-circle"></i>关闭</a></li>
+                <li><a href="#">过滤</a></li>
+                <li><input id="filter" class="search input-small" type="text" /></li>
+                <li><a>每页</a></li>
+                <li>
+                    <select id="selector" size="1" name="tasklist_length" aria-controls="tasklist" style="width:60px">
+                        <option value="10" selected="selected">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                 </li>
+                <li><a>条记录</a></li>
+            </ul>
+        </div>
+        <thead>
+            <tr>
+                <th>身份证号</th>
+                <th>姓名</th>
+                <th>手机号码</th>
+                <th>固定电话</th>
+                <th>电子邮件</th>
+                <th>密码</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (ReWeb.Models.EditUserModel item in Model.Item1)
+            {
+                <tr rel="@item.UserName">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TrueName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TelePhone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        <a class="btn btn-mini ReSetpassword">密码重置</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div style="display:table">
+        <h1 class="span12 page-header" style="padding-top:50px">
+            <span>添加管理员</span>
+        </h1>
+        <div style="padding:25px 25px 25px 25px">
+            <div class="form-inline">
+                <div class="input-prepend" style="padding-top:25px">
+                  <span class="add-on"><i class="icon-user"></i></span>
+                  <input type="text" class="input-small" placeholder="用户名" id ="adminID">
+                </div>
+                <div class="input-prepend" style="padding:25px 5px 0px 5px">
+                  <span class="add-on"><i class="icon-lock"></i></span>
+                  <input type="text" class="input-small" placeholder="密码" id="adminpassword">
+                </div>
+                  <button class="btn" id="createAdmin">创建管理员账户</button>
+            </div>
+        </div>
+    </div>
+    <table class="table table-striped table-bordered interop " style="width:450px" id = "adminList">
+        <thead>
+            <tr>
+                <th>管理员ID</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (ReWeb.Models.EditUserModel item in Model.Item2)
+            {
+                <tr rel="@item.UserName">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserName)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    </section>
+<script type="text/javascript">
+    var run = function () {
+
+        $('input[type="checkbox"]').on('click', function () {
+            var self = $(this);
+            var msg = self.attr("checked")
+            var row = self.parents('tr[rel]');
+            var id = row.attr('rel');
+            if (msg === "checked") {
+                if (confirm('赋予此用户管理员权限？这将非常危险！')) {
+                    $.post('@Url.Action("AdminUser", "Admin")', { id: id });
+                }
+                else {
+                    self.removeAttr("checked");
+                }
+
+            }
+            else {
+                if (confirm('删除此用户管理员权限？')) {
+                    $.post('@Url.Action("UnAdminUser", "Admin")', { id: id });
+                }
+                else {
+                    self.attr("checked", "checked");
+                }
+            }
+        });
+
+        $('.ReSetpassword').on("click", function () {
+            var self = $(this);
+            var row = self.parents('tr[rel]')
+            var id = row.attr('rel');
+            if (confirm('该用户的密码将会被重新设置为123456，是否继续？')) {
+                $.post('@Url.Action("ResetPassword", "Admin")', { id: id }, function (data) {
+                    if (data === 'ok') {
+                        alert("设置成功！");
+                    }
+                });
+            }
+        });
+
+        require(['dataTable'], function () {
+            $('#userList tr').click(function () {
+                $(this).children('input').val($(this).hasClass('row_selected') ? $(this).attr('rel') : '');
+            });
+
+            var e = $('#userList').dataTable({
+                "sDom": "t<'row'<'span4'i><'span8'p>>",
+                //"sDom":'<"wrapper"flipt>'
+                "sPaginationType": "bootstrap",
+                "oLanguage": {
+                    "sLengthMenu": "每页 _MENU_ 条记录"
+                }
+            });
+            e.fnSort([[5, 'desc']]);
+            $('#filter').on('keyup', function (val) {
+                e.fnFilter($(this).val());
+            });
+
+            $('#selector').on('change', function () {
+                redrawWithNewCount(e, $(this).val());
+            });
+        });
+
+        $('#createAdmin').on("click", function () {
+            var id = $('#adminID').val();
+            var password = $('#adminpassword').val();
+            $.post('@Url.Action("CeateAdmin", "Admin")', { id: id, password: password }, function (data) {
+                if (data === id) {
+                    alert("创建成功！");
+                    var tr = $('<tr/>');
+                    tr.attr('rel', id);
+                    tr.append($('<td>' + id + '</td>'));
+                    $('#adminList tbody').prepend(tr);
+                }
+                else {
+                    alert("创建失败！请检查用户名和密码！");
+                }
+            });
+        })
+
+    }
+    function redrawWithNewCount(t, row_count) {
+        //Lifted more or less right out of the DataTables source
+        var oSettings = t.fnSettings();
+
+        oSettings._iDisplayLength = parseInt(row_count, 10);
+        t._fnCalculateEnd(oSettings);
+
+        /* If we have space to show extra rows (backing up from the end point - then do so */
+        if (oSettings.fnDisplayEnd() == oSettings.fnRecordsDisplay()) {
+            oSettings._iDisplayStart = oSettings.fnDisplayEnd() - oSettings._iDisplayLength;
+            if (oSettings._iDisplayStart < 0) {
+                oSettings._iDisplayStart = 0;
+            }
+        }
+
+        if (oSettings._iDisplayLength == -1) {
+            oSettings._iDisplayStart = 0;
+        }
+
+        t.fnDraw(oSettings);
+
+        return t;
+    }
+
+
+</script>

@@ -1,0 +1,67 @@
+﻿@model ReWeb.UserInstance
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>UserInstance</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CreateUser)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CreateUser)
+            @Html.ValidationMessageFor(model => model.CreateUser)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.CreateTime)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.CreateTime)
+            @Html.ValidationMessageFor(model => model.CreateTime)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.InstanceID, "Instance")
+        </div>
+        <div class="editor-field">
+            @Html.DropDownList("InstanceID", String.Empty)
+            @Html.ValidationMessageFor(model => model.InstanceID)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.QLRMC)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.QLRMC)
+            @Html.ValidationMessageFor(model => model.QLRMC)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.FWZL)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.FWZL)
+            @Html.ValidationMessageFor(model => model.FWZL)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

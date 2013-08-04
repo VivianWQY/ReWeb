@@ -1,0 +1,295 @@
+﻿@using ReWeb
+@model IEnumerable<UserInstance>
+@{
+    ViewBag.Title = "业务列表";
+    var i = 0;
+}
+<style>
+    .subnav
+    {
+        padding-top: 1px;
+    }
+    .font
+    {
+        font-weight: 900;
+    }
+</style>
+<section>
+    <div class="page-header">
+        <h1>@ViewBag.TrueName 的业务列表 <small>查看当前的业务</small></h1>
+    </div>
+    
+    <table class="table table-striped table-bordered interop " id = "tasklist">
+        <div class="subnav" id = "subnav">
+            <ul class="nav nav-pills pull-left">
+                <li><a id="checkAll" href="#"><i class="icon-ok"></i>全选</a></li>
+                <li><a href="#">查询</a></li>
+                <li style="padding-top:4px" ><input id="filter" class="search input-small" type="text" style="width:150px"/></li>
+            </ul>
+            <ul class="nav nav-pills pull-right">
+                <li class="dropdown"><a class="btn-success" id="submitChecked">提交选中业务</a> </li>
+                <li class="dropdown">
+                    @Html.ActionLink("新建你的业务", "create", null, new { @class = "btn-info" })
+                </li>
+                <li class="dropdown pull-left">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">操作 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><i class="icon-info-sign"></i>查看</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+                        <li><a href="#"><i class="icon-trash"></i>删除</a></li>
+                        <li><a href="#"><i class="icon-ban-circle"></i>关闭</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+                <li><a href="#"><i class="icon-trash"></i>删除</a></li>
+                <li><a href="#"><i class="icon-ban-circle"></i>关闭</a></li>
+                <li><a>每页</a></li>
+                <li>
+                    <select id="selector" size="1" name="tasklist_length" aria-controls="tasklist" style="width:60px">
+                        <option value="10" selected="selected">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                 </li>
+                <li><a>条记录</a></li>
+            </ul>
+        </div>
+        <thead>
+            <tr>
+                <th>选择</th>
+                <th>网络登记号</th>
+                <th>权利人名称</th>
+                <th>土地坐落</th>
+                <th>创建时间</th>
+                <th>状态</th>
+                <th>说明</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (UserInstance item in Model)
+            {
+                <tr rel="@item.ID">
+                    <td>
+                    @{
+                if (item.Status == 1 || item.Status == 4)
+                {    
+                            <input type="checkbox" class="checked1"/>
+                }
+                     }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QLRMC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FWZL)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateTime)
+                    </td>
+                    <td>
+                        @{
+                switch (item.Status)
+                {
+                    case 1:
+                                    <a rel="popover" data-ref="status" class="label " data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CreateTime)" title="创建时间">已保存</a>
+                                                                                                                                          break;
+                    case 2:
+                                    <a rel="popover" data-ref="status" class="label label-info" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CommitTime)" title="提交时间">已提交</a>
+                                                                                                                                                    break;
+                    case 3:
+                                     <a rel="popover" data-ref="status" class="label label-success" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.AcceptedTime)" title="受理时间">已受理</a>
+                                                                                                                                                        break;
+                    case 4:
+                                     <a rel="popover" data-ref="status" class="label label-important" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.RetreatReason)" title="退回理由">被退回</a>
+                                                                                                                                                          break;
+                    case 5:
+                                     <a rel="popover" data-ref="status" class="label label-warning" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CommitTime)" title="退回理由">通过预审</a>
+                                                                                                                                                        break;
+                }
+                         }
+                    </td>
+                    <td>
+                        @{ 
+                            if (item.RetreatReason != null && item.RetreatReason.Trim().Length > 5)
+                            {
+                                        string reason = item.RetreatReason.Substring(0, 4) + "...";
+                                        @Html.DisplayFor(modelItem=>reason)
+                            }
+                            else
+                            {
+                                        @Html.DisplayFor(modelItem => item.RetreatReason)
+                            }
+
+
+                        }
+                        
+                    </td>
+                    <td>
+                        <a class="btn btn-mini" data-btn="delete" type="button">删除</a>
+                        @{
+                if (item.Status == 1 || item.Status == 4)
+                {
+                                <a class="btn btn-mini btn-success" type="button" data-btn="submit">提交</a>
+                }
+                         }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="Confirm" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">Modal header</h3>
+      </div>
+      <div class="modal-body">
+        <p>One fine body…</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">关闭</button>
+        <button class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+        $('.table.interop tr').bind('click', function (e) {
+            var self = $(e.target);
+            var parent = self.parents('tr');
+            var td = self.parents('td').index() < 0 ? self : self.parents('td');
+            if (td.index() == 0 || td.index() == 7 || td.index() == 5) return;
+            var id = parent.attr('rel');
+            if (id != undefined)
+                location.href = '@Url.Action("Edit", "Instance")/' + id;
+        });
+    </script>
+    <script type="text/javascript">
+        var run = function () {
+            require(['dataTable'], function () {
+
+                $('#tasklist tr').click(function () {
+                    $(this).toggleClass('row_selected');
+                    $(this).children('input').val($(this).hasClass('row_selected') ? $(this).attr('rel') : '');
+                });
+
+                $('a[data-btn]').on('click', function () {
+                    var self = $(this);
+                    var row = self.parents('tr[rel]')
+                    var id = row.attr('rel');
+                    if (self.data('btn') == 'delete' && confirm("确认删除这条记录？")) {
+                        $.post('@Url.Action("Delete", "Instance")', { id: id }, function (data) {
+                            if (data == 'ok') {
+                                row.remove();
+                                alert("删除成功！");
+                            }
+                        });
+                    }
+                    if (self.data('btn') == 'submit') {
+                        $.post('@Url.Action("Submit", "Instance")', { id: id }, function (data) {
+                            if (data == 'ok') {
+                                row.find("a[data-btn].btn-success").remove();
+                                var badge = row.find("a[rel=popover]");
+                                badge.addClass('label-info');
+                                badge.text('已提交');
+                            }
+                        });
+                    }
+                });
+
+                var e = $('#tasklist').dataTable({
+                    "sDom": "t<'row'<'span4'i><'span8'p>>",
+                    //"sDom":'<"wrapper"flipt>'
+                    "sPaginationType": "bootstrap",
+                    "oLanguage": {
+                        "sLengthMenu": "每页 _MENU_ 条记录"
+                    }
+                });
+                e.fnSort([[0, 'desc']]);
+
+                $('#filter').on('keyup', function (val) {
+                    e.fnFilter($(this).val());
+                });
+
+                $('#selector').on('change', function () {
+                    redrawWithNewCount(e, $(this).val());
+                })
+
+
+
+                function fnGetSelected(oTableLocal) {
+                    return oTableLocal.$('tr.row_selected');
+                }
+
+                $('#checkAll').on('click', function () {
+                    $('input[type=checkbox]').attr("checked", true)
+                })
+
+                $('#submitChecked').on('click', function () {
+                    var items = getCheckedId("checked1");
+                    var checkedboxs = $('input[type=checkbox]:checked:enabled');
+                    var rows = checkedboxs.parents('tr[rel]');
+                    if (confirm("确定提交选中业务？") && items) {
+                        $.post('@Url.Action("Submit", "Instance")', { id: items.toString() }, function (data) {
+                            if (data == 'ok') {
+                                rows.find("a[data-btn].btn-success").remove();
+                                var badge = rows.find("a[rel=popover]");
+                                badge.addClass('label-info');
+                                badge.text('已提交');
+                                checkedboxs.remove();
+                            }
+                        });
+                    }
+                })
+
+                $("a[rel=popover]")
+                    .popover({
+                        offset: 10
+                    })
+                    .click(function (e) {
+                        e.preventDefault()
+                    })
+            });
+        }
+        function redrawWithNewCount(t, row_count) {
+            //Lifted more or less right out of the DataTables source
+            var oSettings = t.fnSettings();
+
+            oSettings._iDisplayLength = parseInt(row_count, 10);
+            t._fnCalculateEnd(oSettings);
+
+            /* If we have space to show extra rows (backing up from the end point - then do so */
+            if (oSettings.fnDisplayEnd() == oSettings.fnRecordsDisplay()) {
+                oSettings._iDisplayStart = oSettings.fnDisplayEnd() - oSettings._iDisplayLength;
+                if (oSettings._iDisplayStart < 0) {
+                    oSettings._iDisplayStart = 0;
+                }
+            }
+
+            if (oSettings._iDisplayLength == -1) {
+                oSettings._iDisplayStart = 0;
+            }
+
+            t.fnDraw(oSettings);
+
+            return t;
+        }
+
+        function getCheckedId(s) {
+            var a = [];
+            var str = 'input[type=checkbox]' + "." + s;
+            $(str).each(function () {
+                var self = $(this);
+                if (self.attr('checked'))
+                    a.push(self.parents('tr[rel]').attr('rel'))
+            })
+            return a;
+        }
+
+</script>
+</section>

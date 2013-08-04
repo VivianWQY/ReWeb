@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "德清县地籍信息预登记系统";
+}
+<style>
+    #showcase {
+    color: #ffffff;    
+    }
+    #showcase{
+        text-shadow: 1px 1px 0px #000000;
+    }
+    
+    .hero-unit h1 
+    {
+        padding-top:50px
+    }
+
+    #showcase
+    {
+        background-image:url(@Url.Content("~/static/img/2387.jpg"));
+        height :215px;    
+    }
+    #itemRow
+    {
+         padding-top:60px;
+         border-top: 1px solid #e5e5e5;
+    }
+    
+    .showcase-mask
+    {
+        background:url(@Url.Content("~/static/img/grid-white-1.png"));
+    }
+
+    .content
+    {
+        width: 840px;
+        margin-top: 80px;
+        display:table;
+    }
+    .subline{
+        font-size: 30px;
+        color: #33536d;
+        font-weight: 600;
+    }
+    .description {
+        padding-top: 10px;
+        font-size: 16px;
+        color: #748796;
+        line-height: 1.875em;
+    }
+
+
+</style>
+<div class="hero-unit" id="showcase">
+    <div class="alpha-line">
+        <div class="showcase-mask">
+            <div class="container">
+                <section class=" first clearfix">
+                    <div class="signup-intro">
+                        <h1> 德清县地籍信息预登记系统</h1>
+                        <p class="hidden-phone">在这里管理你的申请业务，效率更高 ：）
+                        </p>
+                    </div>
+                 </section>
+                <div style="padding-top:10px">
+                    @{
+                        if (!Request.IsAuthenticated)
+                        {
+                        <a href="@Url.Action("register","member")" class="btn btn-success btn-large" style="width:120px">现在注册 »</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Index", "instance")" class="btn btn-success btn-large" >马上使用 »</a>
+                        }   
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="content">
+        <div class="span12">
+            <div class="span5">
+                <p class="subline">
+                    浏览器支持</p>
+                <p class="description">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;推荐使用<b>Chrome</b>浏览器或者最佳浏览体验！ 请<b>不要</b>使用<b>任何IE浏览器（包括IE6到IE10）</b>和360浏览器普通模式，这将严重影响网站的一部分功能。
+                    </p>
+            </div>
+            <div class="span4 offset2">
+                <img src="@Url.Content("~/static/img/iSafari2.png")"></img>
+            </div>
+        </div>
+        <div class="span12" style="margin-top: 100px">
+            <div class="span5">
+                <img src="@Url.Content("~/static/img/register.png")" class="img-polaroid"></img>
+            </div>
+            <div class="span5 offset1">
+                <p class="subline">
+                    注册您的信息</p>
+                <p class="description">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;使用本系统进行网上申请办理业务前，您需要注册您的信息。注册时，请填写您真实、详细的信息，否则将影响您业务的受理。</p>
+            </div>
+        </div>
+        <div class="span12" style="margin-top: 100px">
+            <div class="span5">
+                <p class="subline">
+                    申请办理您的业务</p>
+                <p class="description">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;登录系统后点击<b>“业务”</b>，可以看见您的当前业务。在此基础上点击<b>“新申请办理业务”</b>按钮，可以开启一个新的申请登记窗口。
+                    当您填完一项申请登记业务后，可以选择<b>“保存”</b>或者<b>“提交”</b>。只有当您<b>“提交”</b>了申请，我们才能审核您提交的信息并受理您的业务。</p>
+            </div>
+            <div class="span5 offset1">
+                <img class="img-polaroid" src="@Url.Content("~/static/img/accept.png")"></img>
+            </div>
+        </div>
+        <div class="span12" style="margin-top: 100px">
+            <div class="span5">
+                <img src="@Url.Content("~/static/img/commit.png")" class="img-polaroid"></img>
+            </div>
+            <div class="span5 offset1">
+                <p class="subline">
+                    查询您的业务状态</p>
+                <p class="description">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您申请办理的业务会有五个状态，分别为：<br>
+                    <b>“保存”</b>（已填写部分或全部信息，暂存系统但未提交申请）；<br>
+                    <b>“提交”</b>（已将业务提交给我们）；<br>
+                    <b>“被退回”</b>（由于信息不全等原因，您提交的信息未通过我们的预审。请规范填写相关信息后再进行申报）；<br>
+                    <b>“通过预审”</b>（您提交的业务信息已通过预审）；<br>
+                    <b>“已受理”</b>（工作人员已受理您的业务）。<br>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#showcase').anystretch("@Url.Content("~/static/img/2387.jpg")", { speed: 2500 });
+    });
+</script>

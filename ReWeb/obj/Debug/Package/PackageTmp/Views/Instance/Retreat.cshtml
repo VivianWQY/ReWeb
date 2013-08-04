@@ -1,0 +1,382 @@
+﻿@model ReWeb.Models.SavingModels
+@using ReWeb.Infrastructs
+@{
+    ViewBag.Title = "业务查看";
+    var status = Model.UserInstance.Status;
+}
+<h2>
+    业务查看</h2>
+<style>
+    div.fcontainer
+    {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    
+    .maincontent h1
+    {
+        margin-bottom: 20px;
+        margin-top: 0;
+        font-size: 18px;
+        color: #3a87ad;
+        border-bottom: 1px solid #e5e5e5;
+    }
+</style>
+<form method="post" onsubmit="return checkForm();">
+@Html.ValidationSummary(true)
+<fieldset class="fuelux">
+    <div id="forms" class="container fcontainer maincontent">
+        <h1 class="span10">
+            <span>填写权利人信息</span>
+        </h1>
+        <div class="control-group warning form-horizontal span5 ">
+            <label class="control-label">
+                土地使用者：<font color="red">*</font></label>
+            <div class="controls">
+                <input type="text" placeholder="必填" data-require="true" name="Instance.QLRMC" value="@Html.DisplayFor(m => m.Instance.QLRMC)"/>
+            </div>
+        </div>
+        <div class="control-group span5 info  form-horizontal ">
+            <label class="control-label">
+                证件类型：</label>
+            <div class="controls">
+                @Html.SelectList("ZJLX")
+            </div>
+        </div>
+        <div class="control-group info span5 form-horizontal ">
+            <label class="control-label">
+                证件编号：</label>
+            <div class="controls">
+                <input type="text" id="IDinput" name="Instance.ZJBH" placeholder="必填" data-require="true" data-toggle="tooltip" title="请填入合理的证件号码"
+                data-check="/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/"  value="@Html.DisplayFor(m => m.Instance.ZJBH)"/>
+            </div>
+        </div>
+        <div class="control-group span5 info  form-horizontal ">
+            <label class="control-label">
+                单位性质：</label>
+            <div class="controls">
+                @Html.SelectList("DWXZ")
+            </div>
+        </div>
+        <div class="control-group span10 warning form-horizontal ">
+            <label class="control-label">
+                土地坐落：<font color="red">*</font></label>
+            <div class="controls">
+                <input type="text" data-require="true" class="Linput" placeholder="必填" name="Instance.FWZL" value="@Html.DisplayFor(m => m.Instance.FWZL)"/>
+            </div>
+        </div>
+        <h1 class="span10">
+            <span>填写联系方式</span>
+        </h1>
+        <div class="control-group info span5 form-horizontal ">
+            <label class="control-label">
+                联系人：</label>
+            <div class="controls">
+                <input type="text" name="Instance.LXR" value="@Html.DisplayFor(m => m.Instance.LXR)"  data-toggle="tooltip" title="姓名不要超过4个汉字" data-check="/^[\u4E00-\u9FFF]{0,4}$/"/>
+            </div>
+        </div>
+        <div class="control-group  info span5 form-horizontal ">
+            <label class="control-label">
+                联系电话(固定)：</label>
+            <div class="controls">
+                <input type="text" name="Instance.LXDH" data-toggle="tooltip" title="固定电话加区号或者不加" data-check="/^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$/" value="@Html.DisplayFor(m => m.Instance.LXDH)" />
+            </div>
+        </div>
+        <div class="control-group info span5 form-horizontal ">
+            <label class="control-label">
+                电子邮件：</label>
+            <div class="controls">
+                <input type="text" name="Instance.DZYJ" placeholer="name@example.com" data-toggle="tooltip" title="请输入正确的电子邮件格式"
+                    data-check="/^(\w)+(\.\w+)*@@(\w)+((\.\w{2,3}){1,3})$/" value="@Html.DisplayFor(m => m.Instance.DZYJ)" />
+            </div>
+        </div>
+        <div class="control-group info span5 form-horizontal ">
+            <label class="control-label">
+                联系人联系电话(手机)：</label>
+            <div class="controls">
+                <input type="text" data-check="/^1[3|4|5|8]\d{9}$/" data-toggle="tooltip" title="请输入正确的手机格式" name="Instance.LXDHSJ" value="@Html.DisplayFor(m => m.Instance.LXDHSJ)"/>
+            </div>
+        </div>
+        <div class="legalperson">
+            <h1 class="span10">
+                <span>填写法人信息<small style="font-size: 16px"> 个人用户无需填写</small></span>
+            </h1>
+            <div class="control-group info form-horizontal span5 ">
+                <label class="control-label">
+                    姓名：</label>
+                <div class="controls">
+                    <input type="text" name="Instance.FRDB" value="@Html.DisplayFor(m => m.Instance.FRDB)"/>
+                </div>
+            </div>
+            <div class="control-group span5 info form-horizontal ">
+                <label class="control-label">
+                    职务：</label>
+                <div class="controls">
+                    <input type="text" name="Instance.FRZW" value="@Html.DisplayFor(m => m.Instance.FRZW)"/>
+                </div>
+            </div>
+            <div class="control-group info span5 form-horizontal ">
+                <label class="control-label">
+                    身份证号：</label>
+                <div class="controls">
+                    <input type="text" data-check="/^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/"
+                    data-toggle="tooltip" title="请输入合法的身份证号" name="Instance.FRSFZH" value="@Html.DisplayFor(m => m.Instance.FRSFZH)"/>
+                </div>
+            </div>
+            <div class="control-group  info span5 form-horizontal ">
+                <label class="control-label">
+                    联系电话：</label>
+                <div class="controls">
+                    <input type="text" data-check="/((\d{11})|^((\d{7,8})|(\d{4}|\d{3})-(\d{7,8})|(\d{4}|\d{3})-(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1})|(\d{7,8})-(\d{4}|\d{3}|\d{2}|\d{1}))$)/"
+                    placeholder="手机号或者固定电话(请填写区号)" data-toggle="tooltip" title="请输入合法的电话号码" name="Instance.FRLXDW" value="@Html.DisplayFor(m => m.Instance.FRLXDW)" />
+                </div>
+            </div>
+            <div class="control-group info span5 form-horizontal ">
+                <label class="control-label">
+                    通讯地址：</label>
+                <div class="controls">
+                    <input type="text" name="Instance.FRTXDZ" value="@Html.DisplayFor(m => m.Instance.FRTXDZ)"/>
+                </div>
+            </div>
+            <div class="control-group info span5 form-horizontal ">
+                <label class="control-label">
+                    邮编：</label>
+                <div class="controls">
+                    <input type="text" data-toggle="tooltip" title="邮政编码为6位数字" data-check="/^[1-9]\d{5}(?!\d)$/" name="Instance.FRYB" value="@Html.DisplayFor(m => m.Instance.FRYB)"/>
+                </div>
+            </div>
+        </div>
+        <h1 class="span10">
+            <span>填写土地信息</span>
+        </h1>
+        <div class="control-group info span5 form-horizontal ">
+            <label class="control-label">
+                地号：</label>
+            <div class="controls">
+                <input type="text" data-check="/^\d{12}\D{2}\d{5}$/" data-toggle="tooltip"
+                    title="请填写正确的地籍号" name="Instance.DJH" value="@Html.DisplayFor(m => m.Instance.DJH)"/>
+            </div>
+        </div>
+        <div class="control-group  info span5 form-horizontal ">
+            <label class="control-label">
+                图号：</label>
+            <div class="controls">
+                <input type="text" name="Instance.TFH" value="@Html.DisplayFor(m => m.Instance.TFH)"/>
+            </div>
+        </div>
+        <div class="control-group info span5 form-horizontal ">
+            <label class="control-label">
+                权属性质：</label>
+            <div class="controls">
+                @Html.SelectList("QSXZ")
+            </div>
+        </div>
+        <div class="control-group info span5 form-horizontal ">
+            <label class="control-label">
+                地类（用途）：</label>
+            <div class="controls">
+                @Html.SelectList("TDYT")
+            </div>
+        </div>
+        <div class="control-group info span5 form-horizontal ">
+            <label class="control-label">
+                使用权类型：</label>
+            <div class="controls">
+                @Html.SelectList("SYQLX")
+            </div>
+        </div>
+        <div class="control-group info span5 form-horizontal ">
+            <label class="control-label">
+                终止日期：</label>
+            <div class="controls">
+                <div class="input-append date form_datetime">
+                    <input size="16" type="text" name="Instance.ZZRQ" value="@Html.DisplayFor(m => m.Instance.ZZRQ)" readonly>
+                    <span class="add-on"><i class="icon-remove"></i></span><span class="add-on"><i class="icon-calendar">
+                    </i></span>
+                </div>
+            </div>
+        </div>
+        <div class="control-group  info span5 form-horizontal ">
+            <label class="control-label">
+                使用权面积：</label>
+            <div class="controls">
+                <input type="text" data-check="/^[0-9]+([.]\d{1,2})?$/" readonly id="totalArea"
+                data-toggle="tooltip" title="请填入数字，保留二位有效" name="Instance.SYQMJ" value="@Html.DisplayFor(m => m.Instance.SYQMJ)"/>
+                                <span class="add-on" style="color:#3a87ad">
+                    (M<sup>2</sup>)
+                </span>
+            </div>
+        </div>
+        <div class="control-group info span5 form-horizontal ">
+            <label class="control-label">
+                独用面积：</label>
+            <div class="controls">
+                <input type="text" class="add" data-check="/^[0-9]+([.]\d{1,2})?$/" data-toggle="tooltip" title="请填入数字，保留二位有效" name="Instance.DYMJ" value="@Html.DisplayFor(m => m.Instance.DYMJ)"/>
+                                <span class="add-on" style="color:#3a87ad">
+                    (M<sup>2</sup>)
+                </span>
+            </div>
+        </div>
+        <div class="control-group info span5 form-horizontal ">
+            <label class="control-label">
+                分摊面积：</label>
+            <div class="controls">
+                <input type="text" class="add"  data-check="/^[0-9]+([.]\d{1,2})?$/" data-toggle="tooltip" title="请填入数字，保留二位有效" name="Instance.FTMJ" value="@Html.DisplayFor(m => m.Instance.FTMJ)"/>
+                                <span class="add-on" style="color:#3a87ad">
+                    (M<sup>2</sup>)
+                </span>
+            </div>
+        </div>
+        <h1 class="span10">
+            <span>备注</span>
+        </h1>
+        <div class="control-group info span10 form-horizontal ">
+            <label class="control-label">
+                备注：</label>
+            <div class="controls">
+                <textarea class="Linput" type="text" name="Instance.BZ" rows="4">@Html.DisplayFor(m => m.Instance.BZ)</textarea>
+            </div>
+        </div>
+    </div>
+</fieldset>
+<input type=hidden name="Instance.ID" value="@Html.DisplayFor(m => m.Instance.ID)" />
+<div>
+    <div class="control-group info span10 form-horizontal" style="padding-left: 50px">
+        <div class="controls">
+            <a href="@Url.Action("Index")" class="btn" style="width:58px"><<&nbsp;&nbsp;&nbsp;退出</a>
+            <a class="btn btn-danger" id="retreat" href="#retreatWindow" role="button" data-toggle="modal">
+                退回业务</a>
+        </div>
+    </div>
+</div>
+<div id="retreatWindow" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+            &times;</button>
+        <h3>
+            填写退回理由：</h3>
+    </div>
+    <div class="modal-body">
+        <textarea class="span5" rows="4" name="UserInstance.RetreatReason"></textarea>
+    </div>
+    <div class="modal-footer">
+        <input class="btn btn-danger" type="submit" value="退回业务">
+    </div>
+</div>
+</form>
+<script type="text/javascript">
+    jQuery(function($) {
+    $(document).ready(function() {
+        //表单格式验证
+        $(".form_datetime").datetimepicker({
+            language: 'zh-CN',
+            format: "yyyy-mm-dd",
+            autoclose: true,
+            minView: 2,
+            todayBtn: true,
+            startDate: "1900-01-01",
+        });
+    });
+});
+var run = function() {
+        
+    var length = $(".span10").width()-$('.controls').width()+32;
+    $('.Linput').css("width",length+"px");
+    
+    $('div[name="Instance.ZJLX"]').on('changed',
+    function(e, data) {
+        $('#IDlabel').text(data.text + "编号");
+        if (data.text === "军官证") {
+            $('#IDinput').attr("data-check", "/^[0-9]{6,8}$/");
+        }
+        else if (data.text === "居民身份证") {
+            $('#IDinput').attr("data-check", "/^[1-9]\\d{5}[1-9]\\d{3}((0\\d)|(1[0-2]))(([0|1|2]\\d)|3[0-1])\\d{3}([0-9]|X)$/");
+        }
+        else {
+            $('#IDinput').attr("data-check", "/.*/");
+        }
+    });
+
+    $("#forms input[data-check]").on('change',
+    function(e) {
+        var reg = eval($(this).attr('data-check'));
+        if (!reg.test($(this).val()) && $(this).val() != "") {
+            $(this).parent().parent().addClass('error');
+            $(this).parent().parent().removeClass('info');
+            $(this).tooltip('show');
+        } else {
+            $(this).parent().parent().removeClass('error');
+            $(this).parent().parent().addClass('info');
+        }
+    });
+    $("form input[type=submit]").click(function() {
+        $("input[type=submit]", $(this).parents("form")).removeAttr("clicked");
+        $(this).attr("clicked", "true");
+    });
+
+    $('.add').on("change",function(){
+       var sum = 0;
+       inputs=$('.add');
+       inputs.each(function(i,e){
+          sum += $(e).val()-0;     
+       })
+       $('#totalArea').val(sum)
+    })
+
+    
+    $(".legalperson :input").attr('readonly', true);
+
+    $('div[name="Instance.DWXZ"]').on('changed',function(e,data){  
+        $(".legalperson :input").attr('readonly', (data.text === "个人"));
+    })
+
+
+}
+function checkForm() {
+    var input = $("#forms input[data-require]")
+    var a = true;
+    input.each(function(i, e) {
+        if (!$(e).val()) {
+            $(e).focus();
+            a = a & false;
+            return false;
+        }
+    })
+    if (!a) return false;
+
+    var input = $("#forms input[data-check][data-require]")
+    input.each(function(i, e) {
+        var reg = eval($(e).attr('data-check'));
+        if (!reg.test($(e).val())) {
+            $(e).focus();
+            $(e).tooltip('show');
+            a = false;
+            return false;
+        }
+    })
+
+    var input = $("#forms input[data-check]")
+    input.each(function(i, e) {
+        if ($(e).val() === "") return;
+        else {
+            var reg = eval($(e).attr('data-check'));
+            if (!reg.test($(e).val())) {
+                $(e).focus();
+                $(e).tooltip('show');
+                a = false;
+                return false;
+            }
+        }
+    })
+    var text = $("input[type=submit][clicked=true]").val()
+    if(text == "提交"){
+        return a && confirm("确认提交信息？提交后不可修改");
+    }
+    else{
+        return a;
+    }
+}
+</script>

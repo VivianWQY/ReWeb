@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Models.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ModelsStoreContainer">
+    <EntitySet Name="Instance" EntityType="Models.Store.Instance" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserInformation" EntityType="Models.Store.UserInformation" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="UserInstance" EntityType="Models.Store.UserInstance" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK_Instance_Instance" Association="Models.Store.FK_Instance_Instance">
+      <End Role="Instance" EntitySet="Instance" />
+      <End Role="Instance1" EntitySet="Instance" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserInstance_Instance" Association="Models.Store.FK_UserInstance_Instance">
+      <End Role="Instance" EntitySet="Instance" />
+      <End Role="UserInstance" EntitySet="UserInstance" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Instance">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="DJH" Type="varchar" MaxLength="19" />
+    <Property Name="TFH" Type="varchar" MaxLength="250" />
+    <Property Name="FWZL" Type="varchar" MaxLength="100" />
+    <Property Name="QLRMC" Type="varchar" MaxLength="80" />
+    <Property Name="TDYT" Type="varchar" MaxLength="20" />
+    <Property Name="ZJLX" Type="varchar" MaxLength="50" />
+    <Property Name="ZJBH" Type="varchar" MaxLength="40" />
+    <Property Name="DWXZ" Type="varchar" MaxLength="40" />
+    <Property Name="YB" Type="varchar" MaxLength="10" />
+    <Property Name="QSXZ" Type="varchar" MaxLength="20" />
+    <Property Name="SYQLX" Type="varchar" MaxLength="20" />
+    <Property Name="FTMJ" Type="float" />
+    <Property Name="DYMJ" Type="float" />
+    <Property Name="BZ" Type="varchar" MaxLength="2000" />
+    <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="SYQMJ" Type="float" />
+    <Property Name="LXDH" Type="varchar" MaxLength="20" />
+    <Property Name="LXDHSJ" Type="varchar" MaxLength="20" />
+    <Property Name="DZYJ" Type="varchar" MaxLength="50" />
+    <Property Name="FRDB" Type="varchar" MaxLength="8" />
+    <Property Name="FRZW" Type="varchar" MaxLength="20" />
+    <Property Name="FRLXDW" Type="varchar" MaxLength="20" />
+    <Property Name="FRSFZH" Type="varchar" MaxLength="20" />
+    <Property Name="FRTXDZ" Type="varchar" MaxLength="100" />
+    <Property Name="FRYB" Type="varchar" MaxLength="50" />
+    <Property Name="LXR" Type="varchar" MaxLength="8" />
+    <Property Name="ZZRQ" Type="datetime" />
+  </EntityType>
+  <EntityType Name="UserInformation">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Name="trueName" Type="nvarchar" MaxLength="50" />
+    <Property Name="phone" Type="nvarchar" MaxLength="50" />
+    <Property Name="telephone" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserID" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="UserType" Type="int" />
+  </EntityType>
+  <EntityType Name="UserInstance">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="nchar" Nullable="false" MaxLength="12" />
+    <Property Name="CreateUser" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="CreateTime" Type="datetime" Nullable="false" />
+    <Property Name="InstanceID" Type="int" Nullable="false" />
+    <Property Name="QLRMC" Type="nchar" Nullable="false" MaxLength="80" />
+    <Property Name="FWZL" Type="nchar" Nullable="false" MaxLength="100" />
+    <Property Name="Status" Type="int" />
+    <Property Name="RetreatReason" Type="nchar" MaxLength="2000" />
+    <Property Name="CommitTime" Type="datetime" />
+    <Property Name="ReturnTime" Type="datetime" />
+    <Property Name="AcceptedTime" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_Instance_Instance">
+    <End Role="Instance" Type="Models.Store.Instance" Multiplicity="1" />
+    <End Role="Instance1" Type="Models.Store.Instance" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Instance">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Instance1">
+        <PropertyRef Name="ID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserInstance_Instance">
+    <End Role="Instance" Type="Models.Store.Instance" Multiplicity="1" />
+    <End Role="UserInstance" Type="Models.Store.UserInstance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Instance">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserInstance">
+        <PropertyRef Name="InstanceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

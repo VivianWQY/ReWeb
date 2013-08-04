@@ -1,0 +1,524 @@
+﻿@using ReWeb
+@model Tuple<List<UserInstance>, List<UserInstance>, List<UserInstance>>
+@{
+    ViewBag.Title = "管理业务";
+    var i = 0;
+}
+<style>
+    .subnav
+    {
+        padding-top: 1px;
+    }
+    .font
+    {
+        font-weight: 900;
+    }
+</style>
+<section>
+    <div class="page-header">
+        <h1>待审核业务列表 <small>待审核的业务</small></h1>
+    </div>
+    
+    <table class="table table-striped table-bordered interop " id = "tasklist">
+        <div class="subnav">
+            <ul class="nav nav-pills pull-left">
+                <li><a href="#">查询</a></li>
+                <li style="padding-top:4px" ><input id="filter" class="search input-small" type="text" style="width:150px"/></li>
+            </ul>
+            
+            <ul class="nav nav-pills pull-right">
+                <li class="dropdown pull-left">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">操作 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><i class="icon-info-sign"></i>查看</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+                        <li><a href="#"><i class="icon-trash"></i>删除</a></li>
+                        <li><a href="#"><i class="icon-ban-circle"></i>关闭</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+                <li><a href="#"><i class="icon-trash"></i>删除</a></li>
+                <li><a href="#"><i class="icon-ban-circle"></i>关闭</a></li>
+                <li><a>每页</a></li>
+                <li>
+                    <select  id="selector" size="1" name="tasklist_length" aria-controls="tasklist" style="width:60px">
+                        <option value="10" selected="selected">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                 </li>
+                <li><a>条记录</a></li>
+            </ul>
+        </div>
+        <thead>
+            <tr>
+                <th>网络登记号</th>
+                <th>权利人名称</th>
+                <th>土地坐落</th>
+                <th>联系方式</th>
+                <th>用地面积</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (UserInstance item in Model.Item1)
+            {
+                <tr rel="@item.ID">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QLRMC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FWZL)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Instance.LXDHSJ)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Instance.SYQMJ)
+                    </td>
+                    <td>
+                        @{
+                switch (item.Status)
+                {
+                    case 1:
+                                    <a rel="popover" data-ref="status" class="label " data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CreateTime)" title="创建时间">已保存</a>
+                                                                                                                                          break;
+                    case 2:
+                                    <a rel="popover" data-ref="status" class="label label-info" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CommitTime)" title="提交时间">已提交</a>
+                                                                                                                                                    break;
+                    case 3:
+                                     <a rel="popover" data-ref="status" class="label label-success" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.AcceptedTime)" title="受理时间">已受理</a>
+                                                                                                                                                        break;
+                    case 4:
+                                     <a rel="popover" data-ref="status" class="label label-important" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.RetreatReason)" title="退回理由">被退回</a>
+                                                                                                                                                          break;
+                    case 5:
+                                     <a rel="popover" data-ref="status" class="label label-warning" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CommitTime)" title="退回理由">通过预审</a>
+                                                                                                                                                        break;
+                }
+                         }
+                    </td>
+                    <td>
+                        <a class="btn btn-mini btn-success" data-btn="pass" type="button">通过</a>
+                        <a class="btn btn-mini btn-danger" data-btn="retreat" type="button">退回</a> 
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <section>
+
+
+    <div class="page-header">
+        <h1>预审通过业务列表 <small>可以导出的业务</small></h1>
+    </div>
+    
+    <table class="table table-striped table-bordered interop " id = "tasklist2">
+        <div class="subnav">
+            <ul class="nav nav-pills pull-left">
+                <li><a id="checkAll2" href="#"><i class="icon-ok"></i>全选</a></li>
+                <li><a href="#">查询</a></li>
+                <li style="padding-top:4px" ><input id="filter2" class="search input-small" type="text" style="width:150px"/></li>
+            </ul>
+            <ul class="nav nav-pills pull-right">
+                <li class="dropdown">
+                    <a class="btn-info export" id="exportChecked2" href="#">导出选中业务</a>
+                </li>
+                <li class="dropdown">
+                    <a class="btn-success export" id="exportAll2" href="#">导出所有待办业务</a>
+                </li>
+                <li class="dropdown pull-left">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">操作 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><i class="icon-info-sign"></i>查看</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+                        <li><a href="#"><i class="icon-trash"></i>删除</a></li>
+                        <li><a href="#"><i class="icon-ban-circle"></i>关闭</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+                <li><a href="#"><i class="icon-trash"></i>删除</a></li>
+                <li><a href="#"><i class="icon-ban-circle"></i>关闭</a></li>
+                <li><a>每页</a></li>
+                <li>
+                    <select  id="selector2" size="1" name="tasklist_length" aria-controls="tasklist" style="width:60px">
+                        <option value="10" selected="selected">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                 </li>
+                <li><a>条记录</a></li>
+            </ul>
+        </div>
+        <thead>
+            <tr>
+                <th>选择</th>
+                <th>网络登记号</th>
+                <th>权利人名称</th>
+                <th>土地坐落</th>
+                <th>创建时间</th>
+                <th>状态</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (UserInstance item in Model.Item2)
+            {
+                <tr rel="@item.ID">
+                    <td>
+                        <input type="checkbox" class="checked2"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QLRMC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FWZL)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateTime)
+                    </td>
+                    <td>
+                        @{
+                switch (item.Status)
+                {
+                    case 1:
+                                    <a rel="popover" data-ref="status" class="label " data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CreateTime)" title="创建时间">已保存</a>
+                                                                                                                                          break;
+                    case 2:
+                                    <a rel="popover" data-ref="status" class="label label-info" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CommitTime)" title="提交时间">已提交</a>
+                                                                                                                                                    break;
+                    case 3:
+                                     <a rel="popover" data-ref="status" class="label label-success" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.AcceptedTime)" title="受理时间">已受理</a>
+                                                                                                                                                        break;
+                    case 4:
+                                     <a rel="popover" data-ref="status" class="label label-important" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.RetreatReason)" title="退回理由">被退回</a>
+                                                                                                                                                          break;
+                    case 5:
+                                     <a rel="popover" data-ref="status" class="label label-warning" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CommitTime)" title="退回理由">通过预审</a>
+                                                                                                                                                        break;
+                }
+                         }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <section>
+    <div class="page-header">
+        <h1>已办业务列表</h1>
+    </div>
+    
+    <table class="table table-striped table-bordered interop " id = "tasklist3">
+        <div class="subnav">
+            <ul class="nav nav-pills pull-left">
+                <li><a id="checkAll3" href="#"><i class="icon-ok"></i>全选</a></li>
+                <li><a href="#">查询</a></li>
+                <li style="padding-top:4px" ><input id="filter3" class="search input-small" type="text" style="width:150px"/></li>
+            </ul>
+            <ul class="nav nav-pills pull-right">
+                <li class="dropdown">
+                    <a class="btn-info export" id ="exportChecked3" href="#">导出选中业务</a>
+                </li>
+                <li class="dropdown pull-left">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">操作 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#"><i class="icon-info-sign"></i>查看</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+                        <li><a href="#"><i class="icon-trash"></i>删除</a></li>
+                        <li><a href="#"><i class="icon-ban-circle"></i>关闭</a></li>
+                    </ul>
+                </li>
+                <li><a href="#"><i class="icon-pencil"></i>编辑</a></li>
+                <li><a href="#"><i class="icon-trash"></i>删除</a></li>
+                <li><a href="#"><i class="icon-ban-circle"></i>关闭</a></li>
+                <li><a>每页</a></li>
+                <li>
+                    <select  id="selector3" size="1" name="tasklist_length" aria-controls="tasklist" style="width:60px">
+                        <option value="10" selected="selected">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                 </li>
+                <li><a>条记录</a></li>
+            </ul>
+        </div>
+        <thead>
+            <tr>
+                <th>选择</th>
+                <th>网络登记号</th>
+                <th>权利人名称</th>
+                <th>土地坐落</th>
+                <th>创建时间</th>
+                <th>状态</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (UserInstance item in Model.Item3)
+            {
+                <tr rel="@item.ID">
+                    <td>
+                        <input type="checkbox" class="checked3"/>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QLRMC)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FWZL)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreateTime)
+                    </td>
+                    <td>
+                        @{
+                switch (item.Status)
+                {
+                    case 1:
+                                    <a rel="popover" data-ref="status" class="label " data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CreateTime)" title="创建时间">已保存</a>
+                                                                                                                                          break;
+                    case 2:
+                                    <a rel="popover" data-ref="status" class="label label-info" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CommitTime)" title="提交时间">已提交</a>
+                                                                                                                                                    break;
+                    case 3:
+                                     <a rel="popover" data-ref="status" class="label label-success" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.AcceptedTime)" title="受理时间">已受理</a>
+                                                                                                                                                        break;
+                    case 4:
+                                     <a rel="popover" data-ref="status" class="label label-important" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.RetreatReason)" title="退回理由">被退回</a>
+                                                                                                                                                          break;
+                    case 5:
+                                     <a rel="popover" data-ref="status" class="label label-warning" data-toggle="popover" data-placement="top" data-content="@Html.DisplayFor(modelItem => item.CommitTime)" title="退回理由">通过预审</a>
+                                                                                                                                                        break;
+                }
+                         }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
+    <script type="text/javascript">
+        $('.table.interop tr').bind('click', function (e) {
+            var self = $(e.target);
+            var parent = self.parents('tr');
+            var td = self.parents('td').index() < 0 ? self : self.parents('td');
+            if (td.index() == 0 || td.index() ==6 || td.index() ==7 ) return;
+
+            var id = parent.attr('rel');
+
+            if (id != undefined)
+                location.href = '@Url.Action("Retreat", "Instance")/' + id;
+        });
+    </script>
+    <script type="text/javascript">
+        var run = function () {
+            require(['dataTable'], function () {
+                $('#tasklist tr').click(function () {
+                    $(this).toggleClass('row_selected');
+                    $(this).children('input').val($(this).hasClass('row_selected') ? $(this).attr('rel') : '');
+                });
+
+                $('a[data-btn]').on('click', function () {
+                    var self = $(this);
+                    var row = self.parents('tr[rel]')
+                    var id = row.attr('rel');
+                    var qlrmc = row.children()[1].innerHTML.trim();
+                    var tdzl = row.children()[2].innerHTML.trim();
+                    
+
+                    if (self.data('btn') == 'pass') {
+                        $.post('@Url.Action("Pass", "Instance")', { id: id }, function (data) {
+                            if (data == 'ok') {
+                                row.remove();
+                                $('#tasklist2').dataTable().fnAddData( [
+                                    '<input type="checkbox" class="checked2"/>',
+                                    id,
+                                    qlrmc,
+                                    tdzl,
+                                    null,
+                                    '<a class="label label-warning">通过预审</a>'
+                                 ] );
+                            }
+                        });
+                    }
+                    if (self.data('btn') == 'retreat') {
+                        $.post('@Url.Action("WinRetreat", "Instance")', { id: id }, function (data) {
+                            if (data == 'ok') {
+                                row.remove();
+                                $('#tasklist3').dataTable().fnAddData( [
+                                    '<input type="checkbox" class="checked3"/>',
+                                    id,
+                                    qlrmc,
+                                    tdzl,
+                                    null,
+                                    '<a class="label label-important">被退回</a>'
+                                 ] );
+                            }
+                        });
+                    }
+                })
+
+                //tasklist1
+                var e = $('#tasklist').dataTable({
+                    "sDom": "t<'row'<'span4'i><'span8'p>>",
+                    //"sDom":'<"wrapper"flipt>'
+                    "sPaginationType": "bootstrap",
+                    "oLanguage": {
+                        "sLengthMenu": "每页 _MENU_ 条记录"
+                    }
+                });
+                e.fnSort([[0, 'desc']]);
+
+                $('#filter').on('keyup', function (val) {
+                    e.fnFilter($(this).val());
+                });
+
+                $('#tasklist2 tr').click(function () {
+                    $(this).toggleClass('row_selected');
+                    $(this).children('input').val($(this).hasClass('row_selected') ? $(this).attr('rel') : '');
+                });
+
+                //taskList2
+                var e2 = $('#tasklist2').dataTable({
+                    "sDom": "t<'row'<'span4'i><'span8'p>>",
+                    //"sDom":'<"wrapper"flipt>'
+                    "sPaginationType": "bootstrap",
+                    "oLanguage": {
+                        "sLengthMenu": "每页 _MENU_ 条记录"
+                    }
+                });
+                e2.fnSort([[0, 'desc']]);
+
+                $('#filter2').on('keyup', function (val) {
+                    e2.fnFilter($(this).val());
+                });
+
+                //tasklist3
+                var e3 = $('#tasklist3').dataTable({
+                    "sDom": "t<'row'<'span4'i><'span8'p>>",
+                    //"sDom":'<"wrapper"flipt>'
+                    "sPaginationType": "bootstrap",
+                    "oLanguage": {
+                        "sLengthMenu": "每页 _MENU_ 条记录"
+                    }
+                });
+                e3.fnSort([[0, 'desc']]);
+
+                $('#filter3').on('keyup', function (val) {
+                    e3.fnFilter($(this).val());
+                });
+
+
+                
+                $('#checkAll2').on('click', function () {
+                    $('input[type=checkbox].checked2').attr("checked", true)
+                })
+
+                $('#checkAll3').on('click', function () {
+                    $('input[type=checkbox].checked3').attr("checked", true)
+                })
+
+                //selector
+                $('#selector').on('change', function () {
+                    redrawWithNewCount(e, $(this).val());
+                })
+
+                $('#selector2').on('change', function () {
+                    redrawWithNewCount(e2, $(this).val());
+                })
+
+                $('#selector3').on('change', function () {
+                    redrawWithNewCount(e3, $(this).val());
+                })
+
+                function fnGetSelected(oTableLocal) {
+                    return oTableLocal.$('tr.row_selected');
+                }
+
+                $("#exportAll2").on("click", function () {
+                    if (confirm("导出所有预审通过的业务？")) {
+                        $("body").append("<iframe src='@Url.Action("ExportAll", "Admin")' style='display: none;' ></iframe>");
+                    }
+                });
+
+                $("#exportChecked2").on("click", function () {
+                    var items = getCheckedId("checked2");
+                    if (confirm("导出所有已选中的业务？") && items) {
+                        var url = '@Url.Action("ExportChecked", "Admin")' + '?ids=' + items.toString();
+                            $("body").append("<iframe src='" + url + "' style='display: none;' ></iframe>");
+                    }
+                });
+
+                 $("#exportChecked3").on("click", function () {
+                    var items = getCheckedId("checked3");
+                    if (confirm("导出所有已选中的业务？") && items) {
+                        var url = '@Url.Action("ExportChecked", "Admin")' + '?ids=' + items.toString();
+                            $("body").append("<iframe src='" + url + "' style='display: none;' ></iframe>");
+                    }
+                });
+
+                $("a[rel=popover]")
+                    .popover({
+                        offset: 10
+                    })
+                    .click(function (e) {
+                        e.preventDefault()
+                    });
+            });
+        }
+
+        function getCheckedId(s){
+            var a=[];
+            var str = 'input[type=checkbox]'+"."+s;
+            $(str).each(function(){
+             var self = $(this);
+             if(self.attr('checked'))
+                a.push(self.parents('tr[rel]').attr('rel'))
+            })
+            return a;
+        }
+
+        function redrawWithNewCount(t, row_count) {
+            //Lifted more or less right out of the DataTables source
+            var oSettings = t.fnSettings();
+
+            oSettings._iDisplayLength = parseInt(row_count, 10);
+            t._fnCalculateEnd(oSettings);
+
+            /* If we have space to show extra rows (backing up from the end point - then do so */
+            if (oSettings.fnDisplayEnd() == oSettings.fnRecordsDisplay()) {
+                oSettings._iDisplayStart = oSettings.fnDisplayEnd() - oSettings._iDisplayLength;
+                if (oSettings._iDisplayStart < 0) {
+                    oSettings._iDisplayStart = 0;
+                }
+            }
+
+            if (oSettings._iDisplayLength == -1) {
+                oSettings._iDisplayStart = 0;
+            }
+
+            t.fnDraw(oSettings);
+
+            return t;
+        }
+
+</script>
+</section>

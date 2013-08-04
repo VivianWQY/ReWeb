@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Models" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+  <EntityContainer Name="ModelsContainer" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Instance" EntityType="Models.Instance" />
+    <EntitySet Name="UserInstance" EntityType="Models.UserInstance" />
+    <AssociationSet Name="FK_UserInstance_Instance" Association="Models.FK_UserInstance_Instance">
+      <End Role="Instance" EntitySet="Instance" />
+      <End Role="UserInstance" EntitySet="UserInstance" />
+    </AssociationSet>
+    <EntitySet Name="UserInformation" EntityType="Models.UserInformation" />
+  </EntityContainer>
+  <EntityType Name="Instance">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="String" Name="DJH" MaxLength="19" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TFH" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FWZL" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="QLRMC" MaxLength="80" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="TDYT" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ZJLX" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="ZJBH" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="DWXZ" MaxLength="40" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="YB" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="QSXZ" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="SYQLX" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="Double" Name="FTMJ" />
+    <Property Type="Double" Name="DYMJ" />
+    <Property Type="String" Name="BZ" MaxLength="2000" FixedLength="false" Unicode="false" />
+    <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Double" Name="SYQMJ" />
+    <Property Type="String" Name="LXDH" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="LXDHSJ" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="DZYJ" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FRDB" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FRZW" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FRLXDW" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FRSFZH" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FRTXDZ" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="FRYB" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="LXR" MaxLength="8" FixedLength="false" Unicode="false" />
+    <Property Type="DateTime" Name="ZZRQ" />
+    <NavigationProperty Name="UserInstance" Relationship="Models.FK_UserInstance_Instance" FromRole="Instance" ToRole="UserInstance" />
+  </EntityType>
+  <EntityType Name="UserInstance">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Type="String" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Guid" Name="CreateUser" Nullable="false" />
+    <Property Type="DateTime" Name="CreateTime" Nullable="false" />
+    <Property Type="Int32" Name="InstanceID" Nullable="false" />
+    <Property Type="String" Name="QLRMC" Nullable="false" MaxLength="80" FixedLength="true" Unicode="true" />
+    <Property Type="String" Name="FWZL" Nullable="false" MaxLength="100" FixedLength="true" Unicode="true" />
+    <NavigationProperty Name="Instance" Relationship="Models.FK_UserInstance_Instance" FromRole="UserInstance" ToRole="Instance" />
+    <Property Type="Int32" Name="Status" />
+    <Property Type="String" Name="RetreatReason" MaxLength="2000" FixedLength="true" Unicode="true" />
+    <Property Type="DateTime" Name="CommitTime" />
+    <Property Type="DateTime" Name="ReturnTime" />
+    <Property Type="DateTime" Name="AcceptedTime" />
+  </EntityType>
+  <Association Name="FK_UserInstance_Instance">
+    <End Type="Models.Instance" Role="Instance" Multiplicity="1" />
+    <End Type="Models.UserInstance" Role="UserInstance" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Instance">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="UserInstance">
+        <PropertyRef Name="InstanceID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="UserInformation">
+    <Key>
+      <PropertyRef Name="UserID" />
+    </Key>
+    <Property Type="String" Name="trueName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="phone" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="telephone" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Guid" Name="UserID" Nullable="false" />
+    <Property Type="Int32" Name="UserType" />
+  </EntityType>
+</Schema>

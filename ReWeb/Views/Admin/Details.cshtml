@@ -1,0 +1,57 @@
+﻿@model ReWeb.UserInstance
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>UserInstance</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreateUser)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreateUser)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.CreateTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreateTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.GetTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.GetTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Instance.DJH)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Instance.DJH)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.QLRMC)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.QLRMC)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FWZL)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FWZL)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,20 @@
+﻿@model ReWeb.UserInformation
+
+@if (Request.IsAuthenticated)
+{   
+   
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+        <strong> 你好，@Model.trueName！</strong><b class="caret"></b>
+    </a>
+    <ul class="dropdown-menu">
+        <li>@Html.ActionLink("我的资料", "index", "member")</li>
+        <li>@Html.ActionLink("修改密码", "ChangePassword", "member")</li>
+        <li class="divider"></li>
+        <li>@Html.ActionLink("我要退出", "logout", "member")</li>
+    </ul>
+}
+else
+{
+    @Html.ActionLink("登录", "login", "Member")
+}
+
